@@ -35,6 +35,29 @@ router.get('/api/notes/:id', async (req, res) => {
 	}
 });
 
+router.patch('/api/notes/:id', async (req, res) => {
+	const updates = Object.keys(req.body);
+	const allowedUpdates = [ 'title', 'notes' ];
+	const isValidOperation = updates.every(update => allowedUpdates.includes(update));
+
+	if (!isValidOperation) {
+		return res.status(404).send({ error: 'Invalided updates!' });
+	}
+	try {
+    const note = await Note.findOne({ _id: req.params.id });
+    
+    if(!note) {
+      return res.status(404).send({ error: 'Unable to locate note with given ID'})
+    }
+
+    updates.forEach(update => (note[update] = req.body[update]));
+    await note.save();
+    res.send(note);
+	} catch (e) {
+		res.status(500).send(e);
+	}
+});
+
 router.delete('/api/notes/:id', async (req, res) => {
 	try {
 		const note = await Note.findByIdAndDelete(req.params.id);
