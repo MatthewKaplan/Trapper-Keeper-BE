@@ -2,7 +2,7 @@ const express = require('express');
 const router = new express.Router();
 const Note = require('../models/note');
 
-router.post('/api/notes', async (req, res) => {
+router.post('/notes', async (req, res) => {
 	const note = new Note(req.body);
 
 	try {
@@ -13,7 +13,7 @@ router.post('/api/notes', async (req, res) => {
 	}
 });
 
-router.get('/api/notes', async (req, res) => {
+router.get('/notes', async (req, res) => {
 	try {
 		const notes = await Note.find({});
 		res.send(notes);
@@ -22,7 +22,7 @@ router.get('/api/notes', async (req, res) => {
 	}
 });
 
-router.get('/api/notes/:id', async (req, res) => {
+router.get('/notes/:id', async (req, res) => {
 	try {
 		const note = await Note.findById(req.params.id);
 
@@ -35,7 +35,7 @@ router.get('/api/notes/:id', async (req, res) => {
 	}
 });
 
-router.patch('/api/notes/:id', async (req, res) => {
+router.patch('/notes/:id', async (req, res) => {
 	const updates = Object.keys(req.body);
 	const allowedUpdates = [ 'title', 'notes' ];
 	const isValidOperation = updates.every(update => allowedUpdates.includes(update));
@@ -58,7 +58,7 @@ router.patch('/api/notes/:id', async (req, res) => {
 	}
 });
 
-router.delete('/api/notes/:id', async (req, res) => {
+router.delete('/notes/:id', async (req, res) => {
 	try {
 		const note = await Note.findByIdAndDelete(req.params.id);
 
