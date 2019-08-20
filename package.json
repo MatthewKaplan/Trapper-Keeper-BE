@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "env-cmd -f ./config/dev.env nodemon src/app.js",
+    "test": "env-cmd -f ./config/test.env jest --watch --runInBand"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +14,8 @@
     "express": "^4.17.1",
     "mongoose": "^5.6.9",
     "nodemon": "^1.19.1"
+  },
+  "devDependencies": {
+    "env-cmd": "^9.0.3"
   }
 }
