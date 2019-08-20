@@ -13,4 +13,13 @@ router.post('/api/notes', async (req, res) => {
 	}
 });
 
+router.get('/api/notes', async (req, res) => {
+	try {
+		const notes = await Note.find({});
+		res.send(notes);
+	} catch (e) {
+		res.status(400).send(e);
+	}
+});
+
 module.exports = router;
