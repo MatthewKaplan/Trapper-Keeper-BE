@@ -25,6 +25,24 @@ router.get('/api/notes', async (req, res) => {
 router.get('/api/notes/:id', async (req, res) => {
 	try {
 		const note = await Note.findById(req.params.id);
+
+		if (!note) {
+			return res.status(404).send({ error: 'Unable to locate note with given ID' });
+		}
+		res.send(note);
+	} catch (e) {
+		res.status(500).send(e);
+	}
+});
+
+router.delete('/api/notes/:id', async (req, res) => {
+	try {
+		const note = await Note.findByIdAndDelete(req.params.id);
+
+		if (!note) {
+			return res.status(404).send({ error: 'Unable to locate note with given ID' });
+		}
+
 		res.send(note);
 	} catch (e) {
 		res.status(500).send(e);
